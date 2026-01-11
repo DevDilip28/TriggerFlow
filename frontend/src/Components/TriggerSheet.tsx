@@ -18,20 +18,20 @@ import {
     SelectValue,
 } from "@/Components/ui/select"
 
-import type { NodeKind } from "./CreateWorkflow"
+import type { NodeKind, NodeMetadata } from "./CreateWorkflow"
 import { useState } from "react"
-
-type NodeMetadata = any;
+import { Value } from "@radix-ui/react-select"
 
 const SUPPORTED_TRIGGERS = [{
-    id: "timer",
-    title: "Timer",
-    description: "run after every x second"
-}, {
+    id: "time-trigger",
+    title: "Time Trigger",
+    description: "Run the workflow after a fixed time interval",
+},
+{
     id: "price-trigger",
     title: "Price Trigger",
-    description: "run when the price goes above or below the number for an asset"
-}]
+    description: "Run the workflow when an asset price crosses a threshold",
+}];
 
 export const TriggerSheet = ({
     onSelect,
@@ -39,37 +39,41 @@ export const TriggerSheet = ({
     onSelect: (kind: NodeKind, metadata: NodeMetadata) => void;
 }) => {
     const [metadata, setMetadata] = useState({});
+    const [selectedTrigger, setSelectedTrigger] = useState<NodeKind | undefined>(undefined);
 
-    return <Sheet>
-        <SheetTrigger asChild>
-            <Button variant="outline">Open</Button>
-        </SheetTrigger>
-        <SheetContent>
-            <SheetHeader>
-                <SheetTitle>Select Trigger</SheetTitle>
-                <SheetDescription>Select the trigger you want to use
-                    <Select>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Select a fruit" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                {SUPPORTED_TRIGGERS.map(({ id, title }) => <>
-                                    <SelectItem onSelect={() => onSelect(
-                                        id,
-                                        metadata
-                                    )} value={id}>{title}</SelectItem>
-                                </>)}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+    return <Sheet open={true}>
+        <SheetContent side="right" className="w-[300px] p-3">
+            <SheetHeader className="space-y-2">
+                <SheetTitle className="text-lg font-semibold">
+                    Select Trigger
+                </SheetTitle>
+                <SheetDescription className="text-sm text-muted-foreground">
+                    Choose how this workflow should start
                 </SheetDescription>
             </SheetHeader>
-            <SheetFooter>
-                <Button type="submit">Save changes</Button>
-                <SheetClose asChild>
-                    <Button variant="outline">Close</Button>
-                </SheetClose>
+            <Select value={selectedTrigger} onValueChange={(Value) => setSelectedTrigger(Value)}>
+                <SelectTrigger className="w-full mt-2 space-x-2">
+                    <SelectValue placeholder="Select a trigger" />
+                </SelectTrigger>
+
+                <SelectContent position="popper">
+                    <SelectGroup>
+                        {SUPPORTED_TRIGGERS.map(({ id, title }) => <>
+                            <SelectItem key={id} value={id}> {title} </SelectItem>
+                        </>)}
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
+            <SheetFooter className="mt-5">
+                <Button className="w-full"
+                    onClick={() => {
+                        onSelect(
+                            selectedTrigger,
+                            metadata
+                        )
+                    }} type="submit">
+                    Create Trigger
+                </Button>
             </SheetFooter>
         </SheetContent>
     </Sheet>
