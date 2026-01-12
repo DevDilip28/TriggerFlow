@@ -8,6 +8,13 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { TriggerSheet } from "./TriggerSheet";
+import { Timer } from "@/nodes/triggers/TimeTrigger";
+import { Price } from "@/nodes/triggers/PriceTrigger";
+
+const nodeTypes = {
+  "time-trigger": Timer,
+  "price-trigger": Price,
+};
 
 export type NodeKind =
   | "price-trigger"
@@ -21,11 +28,10 @@ export type NodeMetadata = any;
 interface NodeType {
   id: string;
   position: { x: number; y: number };
+  type: NodeKind;
   data: {
-    type: "trigger" | "condition" | "action";
-    kind: NodeKind;
+    kind: "trigger" | "condition" | "action";
     metadata: NodeMetadata;
-    label: string;
   };
 }
 
@@ -63,20 +69,25 @@ export default function CreateWorkflow() {
     []
   );
 
+  const onConnectEnd = useCallback(
+    (params, connectinfo) => {
+      console.log("onConnectEnd", params, connectinfo);
+    }
+  )
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       {!nodes.length && (
         <TriggerSheet
-          onSelect={(kind, metadata) => {
+          onSelect={(type, metadata) => {
             setNodes([
               {
                 id: crypto.randomUUID(),
                 position: { x: 0, y: 0 },
+                type,
                 data: {
-                  type: "trigger",
-                  kind,
+                  kind: "trigger",
                   metadata,
-                  label: kind,
                 },
               },
             ]);
@@ -85,11 +96,13 @@ export default function CreateWorkflow() {
       )}
 
       <ReactFlow
+        nodeTypes={nodeTypes}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        onConnectEnd={onConnectEnd}
         fitView
       >
         <Background variant="dots" gap={10} size={1} />

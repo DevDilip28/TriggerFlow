@@ -25,8 +25,8 @@ import type { TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger"
 import type { PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger"
 import { Input } from "./ui/input"
 
-const SUPPORTED_TRIGGERS = [{
-    id: "time-trigger",
+const SUPPORTED_ACTIONS = [{
+    id: "hyperliquid",
     title: "Time Trigger",
     description: "Run the workflow after a fixed time interval",
 },
