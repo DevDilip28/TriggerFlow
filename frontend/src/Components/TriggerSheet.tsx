@@ -36,7 +36,7 @@ const SUPPORTED_TRIGGERS = [{
     description: "Run the workflow when an asset price crosses a threshold",
 }];
 
-const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL", "USDC"];
+export const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL", "USDC"];
 
 type TriggerKind = "time-trigger" | "price-trigger";
 

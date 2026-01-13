@@ -21,7 +21,7 @@ export type NodeKind =
   | "time-trigger"
   | "send-whatsapp"
   | "send-email"
-  | "place-order";
+  | "execute-trade";
 
 export type NodeMetadata = any;
 
@@ -71,8 +71,12 @@ export default function CreateWorkflow() {
 
   const onConnectEnd = useCallback(
     (params, connectinfo) => {
-      console.log("onConnectEnd", params, connectinfo);
-    }
+      if (connectinfo.isValid) {
+        console.log(connectinfo.fromNode.id);
+        console.log(connectinfo.fromNode.to);
+      }
+    },
+    []
   )
 
   return (

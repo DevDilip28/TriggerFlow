@@ -25,18 +25,23 @@ import type { TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger"
 import type { PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger"
 import { Input } from "./ui/input"
 
-const SUPPORTED_ACTIONS = [{
-    id: "hyperliquid",
-    title: "Time Trigger",
-    description: "Run the workflow after a fixed time interval",
-},
-{
-    id: "price-trigger",
-    title: "Price Trigger",
-    description: "Run the workflow when an asset price crosses a threshold",
-}];
-
-const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL", "USDC"];
+export const SUPPORTED_ACTIONS = [
+  {
+    id: "execute-trade",
+    title: "Execute Trade",
+    description: "Execute a buy or sell trade on a selected trading platform",
+  },
+  {
+    id: "send-email",
+    title: "Send Email",
+    description: "Send an email notification when the trigger fires",
+  },
+  {
+    id: "send-whatsapp",
+    title: "Send WhatsApp Message",
+    description: "Send a WhatsApp message when the trigger fires",
+  },
+];
 
 type TriggerKind = "time-trigger" | "price-trigger";
 
