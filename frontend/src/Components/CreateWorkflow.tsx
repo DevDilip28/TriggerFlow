@@ -13,11 +13,16 @@ import { Price, type PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger";
 import { ActionSheet } from "./ActionSheet";
 import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
 import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
+import { Send } from "lucide-react";
+import SendEmail, { type SendEmailNodeMetadata } from "@/nodes/actions/SendEmail";
+import SendWhatsapp, { type SendWhatsappNodeMetadata } from "@/nodes/actions/SendWhatsapp";
 
 const nodeTypes = {
   "time-trigger": Timer,
   "price-trigger": Price,
   "execute-trade": ExecuteTrade,
+  "send-email": SendEmail,
+  "send-whatsapp": SendWhatsapp,
 };
 
 export type NodeKind =
@@ -30,7 +35,9 @@ export type NodeKind =
 export type NodeMetadata =
   | TimerNodeMetadata
   | PriceNodeMetadata
-  | ExecuteTradeNodeMetadata;
+  | ExecuteTradeNodeMetadata
+  | SendEmailNodeMetadata
+  | SendWhatsappNodeMetadata;
 
 interface NodeType {
   id: string;
@@ -147,7 +154,12 @@ export default function CreateWorkflow() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onConnectEnd={onConnectEnd}
+        minZoom={0.3}
+        maxZoom={1.5}
         fitView
+        fitViewOptions={{ padding: 0.2 }}
+        panOnScroll
+        zoomOnPinch 
       >
         <Background variant="dots" gap={10} size={1} />
       </ReactFlow>

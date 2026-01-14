@@ -21,6 +21,8 @@ import { useState } from "react";
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
 import { SUPPORTED_ASSETS } from "./TriggerSheet";
+import type { SendEmailNodeMetadata } from "@/nodes/actions/SendEmail";
+import type { SendWhatsappNodeMetadata } from "@/nodes/actions/SendWhatsapp";
 
 export const SUPPORTED_ACTIONS = [
   {
@@ -49,20 +51,28 @@ export const ActionSheet = ({
 }: {
   onSelect: (kind: NodeKind, metadata: NodeMetadata) => void;
 }) => {
-  const [metadata, setMetadata] = useState<Partial<ExecuteTradeNodeMetadata>>(
-    {}
-  );
+  const [metadata, setMetadata] = useState<
+    Partial<
+      ExecuteTradeNodeMetadata &
+        SendEmailNodeMetadata &
+        SendWhatsappNodeMetadata
+    >
+  >({});
 
   const [selectedAction, setSelectedAction] = useState<
     ActionKind | undefined
   >();
 
   const isExecuteTradeValid =
-  metadata.platform &&
-  metadata.tradeType &&
-  metadata.qty &&
-  metadata.qty > 0 &&
-  metadata.symbol;
+    metadata.platform &&
+    metadata.tradeType &&
+    metadata.qty &&
+    metadata.qty > 0 &&
+    metadata.symbol;
+
+  const isSendEmailValid = metadata.to && metadata.subject && metadata.body;
+
+  const isSendWhatsappValid = metadata.to && metadata.body;
 
   return (
     <Sheet open={true}>
@@ -170,12 +180,84 @@ export const ActionSheet = ({
           </div>
         )}
 
+        {selectedAction === "send-email" && (
+          <div className="mt-4 space-y-3">
+            TO:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="example@gmail.com"
+              onChange={(e) => {
+                setMetadata((m) => ({
+                  ...m,
+                  to: e.target.value,
+                }));
+              }}
+            />
+            Subject:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="Subject of the email"
+              onChange={(e) => {
+                setMetadata((m) => ({
+                  ...m,
+                  subject: e.target.value,
+                }));
+              }}
+            />
+            Body:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="Type your message"
+              onChange={(e) => {
+                setMetadata((m) => ({
+                  ...m,
+                  body: e.target.value,
+                }));
+              }}
+            />
+          </div>
+        )}
+
+        {selectedAction === "send-whatsapp" && (
+          <div className="mt-4 space-y-3">
+            TO:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="+91XXXXXXXXXX"
+              onChange={(e) => {
+                setMetadata((m) => ({
+                  ...m,
+                  to: e.target.value,
+                }));
+              }}
+            />
+            Body:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="Type your message"
+              onChange={(e) => {
+                setMetadata((m) => ({
+                  ...m,
+                  body: e.target.value,
+                }));
+              }}
+            />
+          </div>
+        )}
         <SheetFooter className="mt-4">
           <Button
             className="w-full"
-              disabled={
-                !selectedAction || (selectedAction === "execute-trade" && !isExecuteTradeValid)
-              }
+            disabled={
+              !selectedAction ||
+              (selectedAction === "execute-trade" && !isExecuteTradeValid) ||
+              (selectedAction === "send-email" && !isSendEmailValid) ||
+              (selectedAction === "send-whatsapp" && !isSendWhatsappValid)
+            }
             onClick={() => {
               onSelect(selectedAction as NodeKind, metadata as NodeMetadata);
             }}
