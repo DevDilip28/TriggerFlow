@@ -8,12 +8,16 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { TriggerSheet } from "./TriggerSheet";
-import { Timer } from "@/nodes/triggers/TimeTrigger";
-import { Price } from "@/nodes/triggers/PriceTrigger";
+import { Timer, type TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger";
+import { Price, type PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger";
+import { ActionSheet } from "./ActionSheet";
+import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
+import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
 
 const nodeTypes = {
   "time-trigger": Timer,
   "price-trigger": Price,
+  "execute-trade": ExecuteTrade,
 };
 
 export type NodeKind =
@@ -23,7 +27,10 @@ export type NodeKind =
   | "send-email"
   | "execute-trade";
 
-export type NodeMetadata = any;
+export type NodeMetadata =
+  | TimerNodeMetadata
+  | PriceNodeMetadata
+  | ExecuteTradeNodeMetadata;
 
 interface NodeType {
   id: string;
@@ -44,40 +51,45 @@ interface EdgeType {
 export default function CreateWorkflow() {
   const [nodes, setNodes] = useState<NodeType[]>([]);
   const [edges, setEdges] = useState<EdgeType[]>([]);
+  const [selectActionOpen, setSelectActionOpen] = useState<{
+    position: {
+      x: number;
+      y: number;
+    };
+    startingNodeId: string;
+  } | null>(null);
 
   const onNodesChange = useCallback(
     (changes: any) =>
-      setNodes((nodesSnapshot) =>
-        applyNodeChanges(changes, nodesSnapshot)
-      ),
+      setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
     []
   );
 
   const onEdgesChange = useCallback(
     (changes: any) =>
-      setEdges((edgesSnapshot) =>
-        applyEdgeChanges(changes, edgesSnapshot)
-      ),
+      setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
     []
   );
 
   const onConnect = useCallback(
     (params: any) =>
-      setEdges((edgesSnapshot) =>
-        addEdge(params, edgesSnapshot)
-      ),
+      setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
     []
   );
 
-  const onConnectEnd = useCallback(
-    (params, connectinfo) => {
-      if (connectinfo.isValid) {
-        console.log(connectinfo.fromNode.id);
-        console.log(connectinfo.fromNode.to);
-      }
-    },
-    []
-  )
+  const POSSITION_OFFSET = 40;
+
+  const onConnectEnd = useCallback((params, connectInfo) => {
+    if (!connectInfo.isValid) {
+      setSelectActionOpen({
+        position: {
+          x: connectInfo.from.x + POSSITION_OFFSET,
+          y: connectInfo.from.y + POSSITION_OFFSET,
+        },
+        startingNodeId: connectInfo.fromNode.id,
+      });
+    }
+  }, []);
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -95,6 +107,34 @@ export default function CreateWorkflow() {
                 },
               },
             ]);
+          }}
+        />
+      )}
+      {selectActionOpen && (
+        <ActionSheet
+          onSelect={(type, metadata) => {
+            const nodeId = Math.random().toString();
+            setNodes([
+              ...nodes,
+              {
+                id: nodeId,
+                position: selectActionOpen.position,
+                type,
+                data: {
+                  kind: "action",
+                  metadata,
+                },
+              },
+            ]);
+            setEdges([
+              ...edges,
+              {
+                id: crypto.randomUUID(),
+                source: selectActionOpen.startingNodeId,
+                target: nodeId,
+              },
+            ]);
+            setSelectActionOpen(null);
           }}
         />
       )}

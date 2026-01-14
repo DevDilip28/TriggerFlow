@@ -14,9 +14,13 @@ export function Timer({
   isConnectable: boolean;
 }) {
   return (
-    <div className="min-w-40 rounded-md border bg-white px-4 py-3 text-sm shadow-sm">
-      <div className="mb-1 font-medium text-gray-700">Time Trigger</div>
-      <div>After {data.metadata.time} seconds</div>
+    <div className="min-w-48 rounded-md border bg-white px-4 py-3 text-smshadow-sm">
+      <div className="mb-1 text-xs font-semibold uppercase text-red-600">
+        Time Trigger
+      </div>
+
+      <div className="mt-1 text-black-700">After {data.metadata.time} seconds</div>
+
       <Handle
         type="source"
         position={Position.Right}

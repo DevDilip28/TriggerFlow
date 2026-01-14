@@ -1,29 +1,26 @@
-import { Button } from "@/Components/ui/button"
+import { Button } from "@/Components/ui/button";
 import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/Components/ui/sheet"
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/Components/ui/sheet";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/Components/ui/select"
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/Components/ui/select";
+import { Input } from "@/Components/ui/input";
 
-import type { NodeKind, NodeMetadata } from "./CreateWorkflow"
-import { useState } from "react"
-import { Value } from "@radix-ui/react-select"
-import type { TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger"
-import type { PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger"
-import { Input } from "./ui/input"
+import { useState } from "react";
+import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
+import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
+import { SUPPORTED_ASSETS } from "./TriggerSheet";
 
 export const SUPPORTED_ACTIONS = [
   {
@@ -41,83 +38,152 @@ export const SUPPORTED_ACTIONS = [
     title: "Send WhatsApp Message",
     description: "Send a WhatsApp message when the trigger fires",
   },
-];
+] as const;
 
-type TriggerKind = "time-trigger" | "price-trigger";
+export type ActionKind = (typeof SUPPORTED_ACTIONS)[number]["id"];
 
-export const TriggerSheet = ({
-    onSelect,
+export const TRADE_PLATFORMS = ["Hyperliquid", "Backpack", "Lighter"] as const;
+
+export const ActionSheet = ({
+  onSelect,
 }: {
-    onSelect: (kind: NodeKind, metadata: NodeMetadata) => void;
+  onSelect: (kind: NodeKind, metadata: NodeMetadata) => void;
 }) => {
-    const [metadata, setMetadata] = useState<TimerNodeMetadata | PriceNodeMetadata>({ time: 3600, asset: "BTC", price: 0 });
-    const [selectedTrigger, setSelectedTrigger] = useState<TriggerKind | undefined>(undefined);
+  const [metadata, setMetadata] = useState<Partial<ExecuteTradeNodeMetadata>>(
+    {}
+  );
 
-    return <Sheet open={true}>
-        <SheetContent side="right" className="w-[300px] p-2">
-            <SheetHeader className="space-y-2">
-                <SheetTitle className="text-lg font-semibold">
-                    Select Trigger
-                </SheetTitle>
-                <SheetDescription className="text-sm text-muted-foreground">
-                    Choose how this workflow should start
-                </SheetDescription>
-            </SheetHeader>
-            <Select value={selectedTrigger} onValueChange={(Value) => setSelectedTrigger(Value)}>
-                <SelectTrigger className="w-full mt-2 space-x-2">
-                    <SelectValue placeholder="Select a trigger" />
-                </SelectTrigger>
+  const [selectedAction, setSelectedAction] = useState<
+    ActionKind | undefined
+  >();
 
-                <SelectContent position="popper">
-                    <SelectGroup>
-                        {SUPPORTED_TRIGGERS.map(({ id, title }) => <>
-                            <SelectItem key={id} value={id}> {title} </SelectItem>
-                        </>)}
-                    </SelectGroup>
-                </SelectContent>
+  const isExecuteTradeValid =
+  metadata.platform &&
+  metadata.tradeType &&
+  metadata.qty &&
+  metadata.qty > 0 &&
+  metadata.symbol;
+
+  return (
+    <Sheet open={true}>
+      <SheetContent side="right" className="w-[300px] p-2">
+        <SheetHeader className="space-y-2">
+          <SheetTitle className="text-lg font-semibold">
+            Select Action
+          </SheetTitle>
+          <SheetDescription className="text-sm text-muted-foreground">
+            Choose what should happen after the trigger fires
+          </SheetDescription>
+        </SheetHeader>
+
+        <Select
+          value={selectedAction}
+          onValueChange={(value) => setSelectedAction(value)}
+        >
+          <SelectTrigger className="w-full mt-2 space-x-2">
+            <SelectValue placeholder="Select an action" />
+          </SelectTrigger>
+          <SelectContent position="popper">
+            <SelectGroup>
+              {SUPPORTED_ACTIONS.map(({ id, title }) => (
+                <SelectItem key={id} value={id}>
+                  {title}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        {selectedAction === "execute-trade" && (
+          <div className="mt-4 space-y-3">
+            Platform:
+            <Select
+              value={metadata.platform}
+              onValueChange={(value) =>
+                setMetadata((m) => ({ ...m, platform: value }))
+              }
+            >
+              <SelectTrigger className="w-full mt-2">
+                <SelectValue placeholder="Select platform" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectGroup>
+                  {TRADE_PLATFORMS.map((id) => (
+                    <SelectItem key={id} value={id}>
+                      {id}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
             </Select>
-            {selectedTrigger === "time-trigger" && <div>
-                Time (in seconds):
-                <Input className="w-full mt-2 space-x-2" value={metadata.time} onChange={(e) => setMetadata((m) => ({
-                    ...m,
-                    time: Number(e.target.value)
-                }))}></Input>
-            </div>}
-            {selectedTrigger === "price-trigger" && <div>
-                Asset:
-                <Select value={metadata.asset} onValueChange={(Value) => setMetadata(metadata => ({
-                    ...metadata,
-                    asset: Value
-                }))}>
-                    <SelectTrigger className="w-full mt-2 space-x-2">
-                        <SelectValue placeholder="Select an asset" />
-                    </SelectTrigger>
+            Trade Type:
+            <Select
+              value={metadata.tradeType}
+              onValueChange={(value) =>
+                setMetadata((m) => ({
+                  ...m,
+                  tradeType: value as "Buy" | "Sell",
+                }))
+              }
+            >
+              <SelectTrigger className="w-full mt-2">
+                <SelectValue placeholder="Buy or Sell" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectGroup>
+                  <SelectItem value="Buy">Buy</SelectItem>
+                  <SelectItem value="Sell">Sell</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            Quantity:
+            <Input
+              className="w-full mt-2"
+              type="number"
+              onChange={(e) =>
+                setMetadata((m) => ({
+                  ...m,
+                  qty: Number(e.target.value),
+                }))
+              }
+            />
+            Asset:
+            <Select
+              value={metadata.symbol}
+              onValueChange={(value) =>
+                setMetadata((m) => ({ ...m, symbol: value }))
+              }
+            >
+              <SelectTrigger className="w-full mt-2">
+                <SelectValue placeholder="Select an asset" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectGroup>
+                  {SUPPORTED_ASSETS.map((asset) => (
+                    <SelectItem key={asset} value={asset}>
+                      {asset}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
-                    <SelectContent position="popper">
-                        <SelectGroup>
-                            {SUPPORTED_ASSETS.map((id) => <>
-                                <SelectItem key={id} value={id}> {id} </SelectItem>
-                            </>)}
-                        </SelectGroup>
-                    </SelectContent>
-                    Price:
-                    <Input className="w-full mt-2 space-x-2" type="text" onChange={(e) => setMetadata((m) => ({
-                        ...m,
-                        price: Number(e.target.value),
-                    }))}></Input>
-                </Select>
-            </div>}
-            <SheetFooter className="mt-4">
-                <Button className="w-full"
-                    onClick={() => {
-                        onSelect(
-                            selectedTrigger,
-                            metadata
-                        )
-                    }} type="submit">
-                    Create Trigger
-                </Button>
-            </SheetFooter>
-        </SheetContent>
+        <SheetFooter className="mt-4">
+          <Button
+            className="w-full"
+              disabled={
+                !selectedAction || (selectedAction === "execute-trade" && !isExecuteTradeValid)
+              }
+            onClick={() => {
+              onSelect(selectedAction as NodeKind, metadata as NodeMetadata);
+            }}
+          >
+            Create Action
+          </Button>
+        </SheetFooter>
+      </SheetContent>
     </Sheet>
-}
+  );
+};
