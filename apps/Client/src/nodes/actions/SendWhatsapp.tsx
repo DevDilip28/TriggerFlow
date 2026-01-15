@@ -25,7 +25,7 @@ function SendWhatsapp({
       <div className="mt-1 text-black-700">
         To: {to}
         <br />
-        Body: {body}
+        Msg: {body}
       </div>
 
       <Handle
