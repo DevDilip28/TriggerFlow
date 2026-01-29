@@ -1,11 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-
-export type ExecuteTradeNodeMetadata = {
-  platform: "Hyperliquid" | "Backpack" | "Lighter";
-  tradeType: "Buy" | "Sell";
-  qty: number;
-  symbol: string;
-};
+import { type ExecuteTradeNodeMetadata } from "@triggerflow/common/types";
 
 function ExecuteTrade({
   data,

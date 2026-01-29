@@ -19,10 +19,8 @@ import { Input } from "@/Components/ui/input";
 
 import { useState } from "react";
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
-import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
 import { SUPPORTED_ASSETS } from "./TriggerSheet";
-import type { SendEmailNodeMetadata } from "@/nodes/actions/SendEmail";
-import type { SendWhatsappNodeMetadata } from "@/nodes/actions/SendWhatsapp";
+import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata } from "@triggerflow/common/types";
 
 export const SUPPORTED_ACTIONS = [
   {

@@ -8,14 +8,13 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { TriggerSheet } from "./TriggerSheet";
-import { Timer, type TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger";
-import { Price, type PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger";
 import { ActionSheet } from "./ActionSheet";
-import type { ExecuteTradeNodeMetadata } from "@/nodes/actions/ExecuteTrade";
 import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
-import { Send } from "lucide-react";
-import SendEmail, { type SendEmailNodeMetadata } from "@/nodes/actions/SendEmail";
-import SendWhatsapp, { type SendWhatsappNodeMetadata } from "@/nodes/actions/SendWhatsapp";
+import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata, type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common/types";
+import { Timer } from "@/nodes/triggers/TimeTrigger";
+import { Price } from "@/nodes/triggers/PriceTrigger";
+import SendEmail from "@/nodes/actions/SendEmail";
+import SendWhatsapp from "@/nodes/actions/SendWhatsapp";
 
 const nodeTypes = {
   "time-trigger": Timer,
@@ -44,7 +43,7 @@ interface NodeType {
   position: { x: number; y: number };
   type: NodeKind;
   data: {
-    kind: "trigger" | "condition" | "action";
+    kind: "trigger" | "action";
     metadata: NodeMetadata;
   };
 }

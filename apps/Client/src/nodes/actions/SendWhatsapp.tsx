@@ -1,10 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import React from "react";
-
-export type SendWhatsappNodeMetadata = {
-  to: string;
-  body: string;
-};
+import { type SendWhatsappNodeMetadata } from "@triggerflow/common/types";
 
 function SendWhatsapp({
   data,

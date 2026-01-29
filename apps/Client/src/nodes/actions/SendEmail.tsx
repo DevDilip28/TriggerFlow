@@ -1,11 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import React from "react";
-
-export type SendEmailNodeMetadata = {
-  to: string;
-  subject: string;
-  body: string;
-};
+import { type SendEmailNodeMetadata } from "@triggerflow/common/types";
 
 function SendEmail({
   data,

@@ -1,13 +1,11 @@
 import { Button } from "@/Components/ui/button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/Components/ui/sheet";
 import {
   Select,
@@ -20,9 +18,7 @@ import {
 
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { useState } from "react";
-import { Value } from "@radix-ui/react-select";
-import type { TimerNodeMetadata } from "@/nodes/triggers/TimeTrigger";
-import type { PriceNodeMetadata } from "@/nodes/triggers/PriceTrigger";
+import {type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common/types";
 import { Input } from "./ui/input";
 
 const SUPPORTED_TRIGGERS = [
@@ -146,7 +142,7 @@ export const TriggerSheet = ({
           <Button
             className="w-full"
             onClick={() => {
-              onSelect(selectedTrigger, metadata);
+              onSelect(selectedTrigger as TriggerKind, metadata);
             }}
             type="submit"
             disabled={!selectedTrigger}
