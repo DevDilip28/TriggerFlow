@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { type TimerNodeMetadata } from "@triggerflow/common/types";
+import { type TimerNodeMetadata } from "@triggerflow/common";
 
 export function Timer({
   data,

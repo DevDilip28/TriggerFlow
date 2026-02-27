@@ -1,5 +1,5 @@
 import { Handle, Position } from "@xyflow/react";
-import { type ExecuteTradeNodeMetadata } from "@triggerflow/common/types";
+import { type ExecuteTradeNodeMetadata } from "@triggerflow/common";
 
 function ExecuteTrade({
   data,

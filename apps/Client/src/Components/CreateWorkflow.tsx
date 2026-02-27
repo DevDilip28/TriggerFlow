@@ -10,11 +10,19 @@ import "@xyflow/react/dist/style.css";
 import { TriggerSheet } from "./TriggerSheet";
 import { ActionSheet } from "./ActionSheet";
 import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
-import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata, type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common/types";
+import {
+  type SendWhatsappNodeMetadata,
+  type SendEmailNodeMetadata,
+  type ExecuteTradeNodeMetadata,
+  type TimerNodeMetadata,
+  type PriceNodeMetadata,
+} from "@triggerflow/common";
 import { Timer } from "@/nodes/triggers/TimeTrigger";
 import { Price } from "@/nodes/triggers/PriceTrigger";
 import SendEmail from "@/nodes/actions/SendEmail";
 import SendWhatsapp from "@/nodes/actions/SendWhatsapp";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const nodeTypes = {
   "time-trigger": Timer,
@@ -43,7 +51,7 @@ interface NodeType {
   position: { x: number; y: number };
   type: NodeKind;
   data: {
-    kind: "trigger" | "action";
+    kind: "Trigger" | "Action";
     metadata: NodeMetadata;
   };
 }
@@ -55,6 +63,7 @@ interface EdgeType {
 }
 
 export default function CreateWorkflow() {
+  const navigate = useNavigate();
   const [nodes, setNodes] = useState<NodeType[]>([]);
   const [edges, setEdges] = useState<EdgeType[]>([]);
   const [selectActionOpen, setSelectActionOpen] = useState<{
@@ -68,19 +77,19 @@ export default function CreateWorkflow() {
   const onNodesChange = useCallback(
     (changes: any) =>
       setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
-    []
+    [],
   );
 
   const onEdgesChange = useCallback(
     (changes: any) =>
       setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
-    []
+    [],
   );
 
   const onConnect = useCallback(
     (params: any) =>
       setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
-    []
+    [],
   );
 
   const POSSITION_OFFSET = 40;
@@ -97,6 +106,24 @@ export default function CreateWorkflow() {
     }
   }, []);
 
+  const payload = {
+    nodes: nodes.map((node) => ({
+      id: node.id,
+      type: node.type,
+      position: node.position,
+      // nodeId: crypto.randomUUID(),
+      data: {
+        kind: node.data.kind,
+        metadata: node.data.metadata,
+      },
+    })),
+    edges: edges.map((edge) => ({
+      id: edge.id,
+      source: edge.source,
+      target: edge.target,
+    })),
+  };
+
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       {!nodes.length && (
@@ -108,7 +135,7 @@ export default function CreateWorkflow() {
                 position: { x: 0, y: 0 },
                 type,
                 data: {
-                  kind: "trigger",
+                  kind: "Trigger",
                   metadata,
                 },
               },
@@ -119,7 +146,7 @@ export default function CreateWorkflow() {
       {selectActionOpen && (
         <ActionSheet
           onSelect={(type, metadata) => {
-            const nodeId = Math.random().toString();
+            const nodeId = crypto.randomUUID();
             setNodes([
               ...nodes,
               {
@@ -127,7 +154,7 @@ export default function CreateWorkflow() {
                 position: selectActionOpen.position,
                 type,
                 data: {
-                  kind: "action",
+                  kind: "Action",
                   metadata,
                 },
               },
@@ -158,9 +185,37 @@ export default function CreateWorkflow() {
         fitView
         fitViewOptions={{ padding: 0.2 }}
         panOnScroll
-        zoomOnPinch 
+        zoomOnPinch
       >
         <Background variant="dots" gap={10} size={1} />
+
+        <button
+          className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md transition duration-200"
+          style={{
+            position: "absolute",
+            top: 20,
+            right: 20,
+            zIndex: 1000,
+          }}
+          onClick={async () => {
+            const name = prompt("Enter workflow name");
+            try {
+              const res = await axios.post(
+                "http://localhost:3000/api/workflow",
+                { name, ...payload },
+                { withCredentials: true },
+              );
+
+              const workflowId = res.data.id;
+
+              navigate(`/workflow/${workflowId}`);
+            } catch (err) {
+              console.error("Failed to create workflow");
+            }
+          }}
+        >
+          Publish
+        </button>
       </ReactFlow>
     </div>
   );

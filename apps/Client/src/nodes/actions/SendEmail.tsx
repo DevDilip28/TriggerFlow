@@ -1,6 +1,6 @@
 import { Handle, Position } from "@xyflow/react";
 import React from "react";
-import { type SendEmailNodeMetadata } from "@triggerflow/common/types";
+import { type SendEmailNodeMetadata } from "@triggerflow/common";
 
 function SendEmail({
   data,

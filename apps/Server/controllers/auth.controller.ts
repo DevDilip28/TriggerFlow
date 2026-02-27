@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
+//new users registration 
 export const signup = async (req, res) => {
     const parsed = SignUpSchema.safeParse(req.body);
 
@@ -31,14 +32,20 @@ export const signup = async (req, res) => {
             passwordHash
         });
 
-        const token = jwt.sign({ id: user.id }, JWT_SECRET, { 
+        const token = jwt.sign({ id: user.id }, JWT_SECRET, {
             expiresIn: "7d",
+        });
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         res.status(201).json({
             message: "Signup successful",
-            id: user._id,
-            token
+            id: user._id
         });
     } catch {
         res.status(500).json({
@@ -47,39 +54,43 @@ export const signup = async (req, res) => {
     }
 };
 
+//existing users login
 export const login = async (req, res) => {
     const parsed = SignInSchema.safeParse(req.body);
 
     if (!parsed.success) {
-        return res.status(400).json({
-            message: "Invalid request data"
-        });
+        return res.status(400).json({ message: "Invalid request data" });
     }
 
     const { username, password } = parsed.data;
 
-    try {
-        const user = await UserModel.findOne({ username }).select("+passwordHash");
-        if (!user) {
-            return res.status(401).json({
-                message: "Invalid credentials"
-            });
-        }
-
-        const isValid = await bcrypt.compare(password, user.passwordHash);
-        if (!isValid) {
-            return res.status(401).json({
-                message: "Invalid credentials"
-            });
-        }
-
-        res.status(200).json({
-            message: "Login successful",
-            id: user._id
-        });
-    } catch {
-        res.status(500).json({
-            message: "Login failed"
-        });
+    const user = await UserModel.findOne({ username }).select("+passwordHash");
+    if (!user) {
+        return res.status(401).json({ message: "Invalid credentials" });
     }
+
+    const isValid = await bcrypt.compare(password, user.passwordHash);
+
+    if (!isValid) {
+        return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({
+        message: "Login successful",
+        id: user._id
+    });
+};
+
+export const logout = (req, res) => {
+    res.clearCookie("token");
+    return res.status(200).json({ message: "Logout successful" });
 };

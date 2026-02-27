@@ -48,6 +48,8 @@ const NodeDataSchema = new Schema({
         enum: ["Action", "Trigger"]
     },
     metadata: Schema.Types.Mixed,
+},{
+    _id: false,
 })
 
 const WorkflowNodeSchema = new Schema({
@@ -55,19 +57,27 @@ const WorkflowNodeSchema = new Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true
+    },
     position: PositionSchema,
     credentials: Schema.Types.Mixed,
-    nodeId: {
-        type: mongoose.Types.ObjectId,
-        ref: "Nodes",
-    },
+    // nodeId: {
+    //     type: mongoose.Types.ObjectId,
+    //     ref: "Nodes",
+    // },
     data: NodeDataSchema,
 }, {
     _id: false,
 })
 
 const WorkflowSchema = new Schema({
-    UserId: {
+    name: {
+        type: String,
+        required: true,
+    },
+    userId: {
         type: mongoose.Types.ObjectId,
         required: true,
         ref: "Users",
@@ -87,6 +97,15 @@ const CredentialsTypeSchema = new Schema({
     }
 })
 
+const nodeMetadataSchema = new Schema({
+    kind:String,
+    title: String,
+    description: String,
+    value: {
+        type: String,
+    }
+})
+
 const NodeSchema = new Schema({
     title: {
         type: String,
@@ -102,6 +121,7 @@ const NodeSchema = new Schema({
         required: true,
     },
     credentialsType: [CredentialsTypeSchema],
+    metadata: [nodeMetadataSchema],
 })
 
 const ExecutionSchema = new Schema({

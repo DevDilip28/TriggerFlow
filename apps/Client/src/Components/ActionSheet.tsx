@@ -20,7 +20,7 @@ import { Input } from "@/Components/ui/input";
 import { useState } from "react";
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { SUPPORTED_ASSETS } from "./TriggerSheet";
-import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata } from "@triggerflow/common/types";
+import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata } from "@triggerflow/common";
 
 export const SUPPORTED_ACTIONS = [
   {
@@ -52,8 +52,8 @@ export const ActionSheet = ({
   const [metadata, setMetadata] = useState<
     Partial<
       ExecuteTradeNodeMetadata &
-        SendEmailNodeMetadata &
-        SendWhatsappNodeMetadata
+      SendEmailNodeMetadata &
+      SendWhatsappNodeMetadata
     >
   >({});
 
@@ -66,7 +66,8 @@ export const ActionSheet = ({
     metadata.tradeType &&
     metadata.qty &&
     metadata.qty > 0 &&
-    metadata.symbol;
+    metadata.symbol &&
+    metadata.apiKey;
 
   const isSendEmailValid = metadata.to && metadata.subject && metadata.body;
 
@@ -175,6 +176,15 @@ export const ActionSheet = ({
                 </SelectGroup>
               </SelectContent>
             </Select>
+            API Key:
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="Enter API key for the trading platform"
+              onChange={(e) =>
+                setMetadata((m) => ({ ...m, apiKey: e.target.value }))
+              }
+            />
           </div>
         )}
 

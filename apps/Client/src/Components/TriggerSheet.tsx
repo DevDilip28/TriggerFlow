@@ -18,7 +18,7 @@ import {
 
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { useState } from "react";
-import {type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common/types";
+import {type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common";
 import { Input } from "./ui/input";
 
 const SUPPORTED_TRIGGERS = [
