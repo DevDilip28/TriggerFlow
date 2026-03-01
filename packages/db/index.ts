@@ -48,6 +48,7 @@ const NodeDataSchema = new Schema({
         enum: ["Action", "Trigger"]
     },
     metadata: Schema.Types.Mixed,
+    credential: Schema.Types.Mixed,
 },{
     _id: false,
 })
@@ -62,7 +63,6 @@ const WorkflowNodeSchema = new Schema({
         required: true
     },
     position: PositionSchema,
-    credentials: Schema.Types.Mixed,
     // nodeId: {
     //     type: mongoose.Types.ObjectId,
     //     ref: "Nodes",

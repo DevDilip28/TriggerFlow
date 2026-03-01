@@ -18,7 +18,7 @@ import {
 
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { useState } from "react";
-import {type TimerNodeMetadata, type PriceNodeMetadata } from "@triggerflow/common";
+import {type TimerNodeMetadata, type PriceNodeMetadata, type tradeCredential } from "@triggerflow/common";
 import { Input } from "./ui/input";
 
 const SUPPORTED_TRIGGERS = [
@@ -41,11 +41,11 @@ type TriggerKind = "time-trigger" | "price-trigger";
 export const TriggerSheet = ({
   onSelect,
 }: {
-  onSelect: (kind: NodeKind, metadata: NodeMetadata) => void;
+  onSelect: (kind: NodeKind, metadata: NodeMetadata, credential: tradeCredential) => void;
 }) => {
   const [metadata, setMetadata] = useState<
     TimerNodeMetadata | PriceNodeMetadata
-  >({ time: 3600, asset: "BTC", price: 0 });
+  >({ time: 1, asset: "BTC", price: 1 });
   const [selectedTrigger, setSelectedTrigger] = useState<
     TriggerKind | undefined
   >(undefined);

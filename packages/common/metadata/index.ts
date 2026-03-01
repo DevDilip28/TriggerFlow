@@ -12,7 +12,6 @@ export type ExecuteTradeNodeMetadata = {
   tradeType: "Buy" | "Sell";
   qty: number;
   symbol: string;
-  apiKey: string;
 };
 
 export type SendEmailNodeMetadata = {
@@ -26,3 +25,6 @@ export type SendWhatsappNodeMetadata = {
   body: string;
 };
 
+export type tradeCredential = {
+  apiKey?: string;
+}

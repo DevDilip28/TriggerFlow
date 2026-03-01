@@ -118,4 +118,30 @@ export const getAllWorkflows = async (req: Request, res: Response) => {
     res.json({
         workflows
     });
-}
+};
+
+export const deleteWorkflow = async (req: Request, res: Response) => {
+    const workflowId = req.params.workflowId;
+    const userId = req.userId;
+
+    try {
+        const workflow = await WorkflowModel.findOneAndDelete({
+            _id: workflowId,
+            userId
+        });
+
+        if (!workflow) {
+            return res.status(404).json({
+                message: "Workflow not found"
+            });
+        }
+
+        res.json({
+            message: "Workflow deleted successfully"
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to delete workflow"
+        });
+    }
+};

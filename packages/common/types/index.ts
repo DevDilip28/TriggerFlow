@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { da, id } from "zod/v4/locales";
 
 export const SignUpSchema = z.object({
     username: z.string().min(3, "Name must be at least 3 characters"),
@@ -17,11 +16,11 @@ export const CreateWorkflowSchema = z.object({
             x: z.number(),
             y: z.number(),
         }),
-        credentials: z.any(),
         // nodeId: z.string(),
         data: z.object({
             kind: z.enum(["Action", "Trigger"]),
             metadata: z.any(),
+            credential: z.any(),
         }),
     })),
     edges: z.array(z.object({

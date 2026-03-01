@@ -16,6 +16,7 @@ import {
   type ExecuteTradeNodeMetadata,
   type TimerNodeMetadata,
   type PriceNodeMetadata,
+  type tradeCredential,
 } from "@triggerflow/common";
 import { Timer } from "@/nodes/triggers/TimeTrigger";
 import { Price } from "@/nodes/triggers/PriceTrigger";
@@ -53,6 +54,7 @@ interface NodeType {
   data: {
     kind: "Trigger" | "Action";
     metadata: NodeMetadata;
+    credential: tradeCredential;
   };
 }
 
@@ -115,6 +117,7 @@ export default function CreateWorkflow() {
       data: {
         kind: node.data.kind,
         metadata: node.data.metadata,
+        credential: node.data.credential,
       },
     })),
     edges: edges.map((edge) => ({
@@ -128,7 +131,7 @@ export default function CreateWorkflow() {
     <div style={{ width: "100vw", height: "100vh" }}>
       {!nodes.length && (
         <TriggerSheet
-          onSelect={(type, metadata) => {
+          onSelect={(type, metadata, credential) => {
             setNodes([
               {
                 id: crypto.randomUUID(),
@@ -137,6 +140,7 @@ export default function CreateWorkflow() {
                 data: {
                   kind: "Trigger",
                   metadata,
+                  credential,
                 },
               },
             ]);
@@ -145,7 +149,7 @@ export default function CreateWorkflow() {
       )}
       {selectActionOpen && (
         <ActionSheet
-          onSelect={(type, metadata) => {
+          onSelect={(type, metadata, credential) => {
             const nodeId = crypto.randomUUID();
             setNodes([
               ...nodes,
@@ -156,6 +160,7 @@ export default function CreateWorkflow() {
                 data: {
                   kind: "Action",
                   metadata,
+                  credential,
                 },
               },
             ]);

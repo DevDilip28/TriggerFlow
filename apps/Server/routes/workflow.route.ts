@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware";
-import { createWorkflow, getAllWorkflows, getAvailableNodes, getWorkflow, getWorkflowExecutions, updateWorkflow } from "../controllers/workflow.controller";
+import { createWorkflow, deleteWorkflow, getAllWorkflows, getAvailableNodes, getWorkflow, getWorkflowExecutions, updateWorkflow } from "../controllers/workflow.controller";
 
 const workflowRoutes = Router();
 
 workflowRoutes.post("/", authMiddleware, createWorkflow);
+workflowRoutes.delete("/delete/:workflowId", authMiddleware, deleteWorkflow);
 
 workflowRoutes.get("/allWorkflows", authMiddleware, getAllWorkflows);
 workflowRoutes.get("/:workflowId", authMiddleware, getWorkflow);
