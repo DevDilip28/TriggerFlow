@@ -84,6 +84,8 @@ const WorkflowSchema = new Schema({
     },
     nodes: [WorkflowNodeSchema],
     edges: [EdgesSchema],
+}, {
+        timestamps: true,
 })
 
 const CredentialsTypeSchema = new Schema({
@@ -128,6 +130,11 @@ const ExecutionSchema = new Schema({
     workflowId: {
         type: mongoose.Types.ObjectId,
         ref: "workflows",
+        required: true,
+    },
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: "users",
         required: true,
     },
     status: {

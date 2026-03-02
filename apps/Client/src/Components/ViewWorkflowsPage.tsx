@@ -11,6 +11,7 @@ interface Workflow {
 
 export default function ViewWorkflowsPage() {
   const [workflows, setWorkflows] = useState<Workflow[]>([]);
+  const [status, setStatus] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -22,7 +23,21 @@ export default function ViewWorkflowsPage() {
           "http://localhost:3000/api/workflow/allworkflows",
           { withCredentials: true },
         );
-        setWorkflows(response.data.workflows);
+        const workflowsData = response.data.workflows;
+        setWorkflows(workflowsData);
+
+        // Fetch status for each workflow
+        const statusMap: Record<string, string> = {};
+
+        for (const wf of workflowsData) {
+          const execResponse = await axios.get(
+            `http://localhost:3000/api/workflow/execution/${wf._id}`,
+            { withCredentials: true },
+          );
+
+          statusMap[wf._id] = execResponse.data.status;
+        }
+        setStatus(statusMap);
       } catch (err) {
         console.error("Failed to load workflows:", err);
       } finally {
@@ -84,15 +99,24 @@ export default function ViewWorkflowsPage() {
 
               <div className="flex gap-3 w-full sm:w-auto">
                 <button
-                    onClick={() => navigate(`/workflow/${wf._id}`)}
+                  onClick={() => navigate(`/workflow/${wf._id}`)}
                   className="flex-1 sm:flex-none px-4 py-2 border rounded-md hover:bg-gray-100 transition"
                 >
                   Open
                 </button>
 
-                <button className="flex-1 sm:flex-none px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition">
-                  Executions
-                </button>
+                <span
+                  className={`flex-1 sm:flex-none px-4 py-2 border rounded-md
+                  font-medium ${
+                    status[wf._id] === "Success"
+                      ? "text-green-600"
+                      : status[wf._id] === "Failed"
+                        ? "text-red-600"
+                        : "text-yellow-600"
+                  }`}
+                >
+                  {status[wf._id] || "Pending"}
+                </span>
               </div>
             </div>
           ))}

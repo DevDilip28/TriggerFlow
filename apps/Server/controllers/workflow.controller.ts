@@ -86,20 +86,18 @@ export const getWorkflow = async (req: Request, res: Response) => {
 };
 
 export const getWorkflowExecutions = async (req: Request, res: Response) => {
-    const executions = await ExecutionModel.find({
-        workflowId: req.params.workflowId,
-        userId: req.userId
-    });
+    const execution = await ExecutionModel
+        .findOne({
+            workflowId: req.params.workflowId,
+            userId: req.userId
+        })
+        .sort({ startTime: -1 }); // latest first
 
-    if (executions.length === 0) {
-        return res.status(404).json({
-            message: "No executions found for this workflow"
-        });
+    if (!execution) {
+        return res.json({ status: "Pending" });
     }
 
-    res.json({
-        executions
-    });
+    res.json({ status: execution.status });
 };
 
 export const getAvailableNodes = async (req: Request, res: Response) => {
