@@ -40,6 +40,7 @@ export default function IdWorkflowPage() {
 
   const [nodes, setNodes] = useState<NodeType[]>([]);
   const [edges, setEdges] = useState<EdgeType[]>([]);
+  const [status, setStatus] = useState<string>("Pending");
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState<string>("");
 
@@ -51,9 +52,18 @@ export default function IdWorkflowPage() {
           { withCredentials: true },
         );
 
-        setNodes(res.data.nodes);
-        setEdges(res.data.edges);
-        setName(res.data.name);
+        const workflowData = res.data;
+
+        setNodes(workflowData.nodes);
+        setEdges(workflowData.edges);
+        setName(workflowData.name);
+
+        const execResponse = await axios.get(
+          `http://localhost:3000/api/workflow/execution/${workflowData._id}`,
+          { withCredentials: true },
+        );
+
+        setStatus(execResponse.data.status);
       } catch (err) {
         console.error("Failed to fetch workflow");
       } finally {
@@ -83,11 +93,22 @@ export default function IdWorkflowPage() {
         </div>
 
         <button
-          onClick={() => navigate("/dashboard")}
-          className="px-4 py-2 border rounded-md hover:bg-gray-100 transition"
+          onClick={() => navigate("/view-workflows")}
+          className="px-4 py-2 border rounded-md bg-blue-300 transition"
         >
-          Back to Dashboard
+          Back to Wrokflows
         </button>
+        <span
+          className={`px-4 py-2 border rounded-md font-medium ${
+            status === "Success"
+              ? "text-green-600"
+              : status === "Failed"
+                ? "text-red-600"
+                : "text-yellow-600"
+          }`}
+        >
+          {status}
+        </span>
       </div>
 
       <div className="flex-1">

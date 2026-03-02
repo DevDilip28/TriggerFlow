@@ -35,7 +35,7 @@ export default function ViewWorkflowsPage() {
             { withCredentials: true },
           );
 
-          statusMap[wf._id] = execResponse.data.status;
+           statusMap[wf._id] = execResponse.data.status;
         }
         setStatus(statusMap);
       } catch (err) {

@@ -34,7 +34,7 @@ const SUPPORTED_TRIGGERS = [
   },
 ];
 
-export const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL", "USDC"] as const;
+export const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL"] as const;
 
 type TriggerKind = "time-trigger" | "price-trigger";
 

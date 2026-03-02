@@ -20,7 +20,12 @@ import { Input } from "@/Components/ui/input";
 import { useState } from "react";
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { SUPPORTED_ASSETS } from "./TriggerSheet";
-import { type SendWhatsappNodeMetadata, type SendEmailNodeMetadata, type ExecuteTradeNodeMetadata, type tradeCredential } from "@triggerflow/common";
+import {
+  type SendWhatsappNodeMetadata,
+  type SendEmailNodeMetadata,
+  type ExecuteTradeNodeMetadata,
+  type tradeCredential,
+} from "@triggerflow/common";
 
 export const SUPPORTED_ACTIONS = [
   {
@@ -42,18 +47,22 @@ export const SUPPORTED_ACTIONS = [
 
 export type ActionKind = (typeof SUPPORTED_ACTIONS)[number]["id"];
 
-export const TRADE_PLATFORMS = ["Hyperliquid", "Backpack", "Lighter"] as const;
+export const TRADE_PLATFORMS = ["Backpack", "Lighter"] as const;
 
 export const ActionSheet = ({
   onSelect,
 }: {
-  onSelect: (kind: NodeKind, metadata: NodeMetadata, credential: tradeCredential | null) => void;
+  onSelect: (
+    kind: NodeKind,
+    metadata: NodeMetadata,
+    credential: tradeCredential | null,
+  ) => void;
 }) => {
   const [metadata, setMetadata] = useState<
     Partial<
       ExecuteTradeNodeMetadata &
-      SendEmailNodeMetadata &
-      SendWhatsappNodeMetadata
+        SendEmailNodeMetadata &
+        SendWhatsappNodeMetadata
     >
   >({});
 
@@ -269,7 +278,11 @@ export const ActionSheet = ({
               (selectedAction === "send-whatsapp" && !isSendWhatsappValid)
             }
             onClick={() => {
-              onSelect(selectedAction as NodeKind, metadata as NodeMetadata, credential as tradeCredential);
+              onSelect(
+                selectedAction as NodeKind,
+                metadata as NodeMetadata,
+                credential as tradeCredential,
+              );
             }}
           >
             Create Action
