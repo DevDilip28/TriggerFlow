@@ -13,7 +13,7 @@ async function main() {
         const workflows = await WorkflowModel.find({});
 
         workflows.map(async workflow => {
-            
+
             const triggerNode = workflow.nodes.find(x => x.data?.kind === "Trigger");
 
             if (!triggerNode) {

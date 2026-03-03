@@ -7,11 +7,17 @@
   "type": "module",
   "main": "index.ts",
   "dependencies": {
-    "db": "*"
+    "db": "*",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.1",
+    "resend": "^6.9.3"
   },
   "scripts": {
     "dev": "tsx watch index.ts",
     "start": "node dist/index.js",
     "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^7.0.11"
   }
 }

@@ -1,5 +1,5 @@
 import { sendEmail } from "./executors/email";
-import { backpack, hyperliquid } from "./executors/trade/backpack";
+import { backpack } from "./executors/trade/backpack";
 import { lighter } from "./executors/trade/lighter";
 import { sendWhatsapp } from "./executors/whatsapp";
 
@@ -55,10 +55,10 @@ export async function executeRecursive(sourceId: string, nodes: NodeType[], edge
                         await backpack(node.data.metadata.symbol, node.data.metadata.tradeType, node.data.metadata.qty, node.data.credential.apiKey);
                         break;
                 }
-            break;
+                break;
 
             case "send-email":
-                await sendEmail();
+                await sendEmail(node.data.metadata.to, node.data.metadata.subject, node.data.metadata.body);
                 break;
 
             case "send-whatsapp":

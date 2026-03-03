@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware";
-import { createWorkflow, deleteWorkflow, getAllWorkflows, getAvailableNodes, getWorkflow, getWorkflowExecutions, updateWorkflow } from "../controllers/workflow.controller";
+import { createWorkflow, deleteWorkflow, getAllWorkflows, getAvailableNodes, getWorkflow, getWorkflowExecutions, updateWorkflow, webHook } from "../controllers/workflow.controller";
 
 const workflowRoutes = Router();
 
