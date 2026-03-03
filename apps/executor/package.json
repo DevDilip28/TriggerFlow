@@ -7,8 +7,11 @@
   "type": "module",
   "main": "index.ts",
   "dependencies": {
+    "axios": "^1.13.6",
+    "bpx-api-client": "^0.1.2",
     "db": "*",
     "express": "^5.2.1",
+    "lighter-ts-sdk": "^1.0.10",
     "nodemailer": "^8.0.1",
     "resend": "^6.9.3"
   },

@@ -54,7 +54,7 @@ interface NodeType {
   data: {
     kind: "Trigger" | "Action";
     metadata: NodeMetadata;
-    credential: tradeCredential;
+    credential: tradeCredential | null;
   };
 }
 

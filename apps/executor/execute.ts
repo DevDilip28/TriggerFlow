@@ -1,6 +1,5 @@
+import { backpack } from "./executors/backpack";
 import { sendEmail } from "./executors/email";
-import { backpack } from "./executors/trade/backpack";
-import { lighter } from "./executors/trade/lighter";
 import { sendWhatsapp } from "./executors/whatsapp";
 
 export type NodeType = {
@@ -46,23 +45,16 @@ export async function executeRecursive(sourceId: string, nodes: NodeType[], edge
         // execute the action node here
         switch (node.type) {
             case "execute-trade":
-                switch (node.data.metadata.platform) {
-                    case "Lighter":
-                        await lighter(node.data.metadata.symbol, node.data.metadata.tradeType, node.data.metadata.qty, node.data.credential.apiKey);
-                        break;
-
-                    case "Backpack":
-                        await backpack(node.data.metadata.symbol, node.data.metadata.tradeType, node.data.metadata.qty, node.data.credential.apiKey);
-                        break;
-                }
+                await backpack(node.data.metadata.tradeType, node.data.metadata.qty, node.data.metadata.symbol, node.data.credential.apiKey, node.data.credential.apiSecret);
                 break;
+
 
             case "send-email":
                 await sendEmail(node.data.metadata.to, node.data.metadata.subject, node.data.metadata.body);
                 break;
 
             case "send-whatsapp":
-                await sendWhatsapp();
+                await sendWhatsapp(node.data.metadata.to, node.data.metadata.body);
                 break;
         }
     }))

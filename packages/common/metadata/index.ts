@@ -8,7 +8,7 @@ export type TimerNodeMetadata = {
 };
 
 export type ExecuteTradeNodeMetadata = {
-  platform: "Hyperliquid" | "Backpack" | "Lighter";
+  platform: "Backpack";
   tradeType: "Buy" | "Sell";
   qty: number;
   symbol: string;
@@ -27,4 +27,5 @@ export type SendWhatsappNodeMetadata = {
 
 export type tradeCredential = {
   apiKey?: string;
+  apiSecret?: string;
 }

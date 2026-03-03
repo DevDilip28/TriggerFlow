@@ -34,7 +34,7 @@ const SUPPORTED_TRIGGERS = [
   },
 ];
 
-export const SUPPORTED_ASSETS = ["BTC", "ETH", "SOL"] as const;
+export const SUPPORTED_ASSETS = ["BTC_USDC", "ETH_USDC", "SOL_USDC"] as const;
 
 type TriggerKind = "time-trigger" | "price-trigger";
 
@@ -45,7 +45,7 @@ export const TriggerSheet = ({
 }) => {
   const [metadata, setMetadata] = useState<
     TimerNodeMetadata | PriceNodeMetadata
-  >({ time: 1, asset: "BTC", price: 1 });
+  >({ time: 1, asset: "BTC_USDC", price: 1 });
   const [selectedTrigger, setSelectedTrigger] = useState<
     TriggerKind | undefined
   >(undefined);

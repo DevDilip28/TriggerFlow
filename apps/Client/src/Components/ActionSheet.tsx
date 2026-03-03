@@ -73,12 +73,12 @@ export const ActionSheet = ({
   >();
 
   const isExecuteTradeValid =
-    metadata.platform &&
     metadata.tradeType &&
     metadata.qty &&
     metadata.qty > 0 &&
     metadata.symbol &&
-    credential.apiKey;
+    credential.apiKey &&
+    credential.apiSecret;
 
   const isSendEmailValid = metadata.to && metadata.subject && metadata.body;
 
@@ -86,8 +86,8 @@ export const ActionSheet = ({
 
   return (
     <Sheet open={true}>
-      <SheetContent side="right" className="w-[300px] p-2">
-        <SheetHeader className="space-y-2">
+      <SheetContent side="right" className="w-[350px] p-3">
+        <SheetHeader className="">
           <SheetTitle className="text-lg font-semibold">
             Select Action
           </SheetTitle>
@@ -100,7 +100,7 @@ export const ActionSheet = ({
           value={selectedAction}
           onValueChange={(value) => setSelectedAction(value)}
         >
-          <SelectTrigger className="w-full mt-2 space-x-2">
+          <SelectTrigger className="w-full space-x-2">
             <SelectValue placeholder="Select an action" />
           </SelectTrigger>
           <SelectContent position="popper">
@@ -115,27 +115,11 @@ export const ActionSheet = ({
         </Select>
 
         {selectedAction === "execute-trade" && (
-          <div className="mt-4 space-y-3">
-            Platform:
-            <Select
-              value={metadata.platform}
-              onValueChange={(value) =>
-                setMetadata((m) => ({ ...m, platform: value }))
-              }
-            >
-              <SelectTrigger className="w-full mt-2">
-                <SelectValue placeholder="Select platform" />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectGroup>
-                  {TRADE_PLATFORMS.map((id) => (
-                    <SelectItem key={id} value={id}>
-                      {id}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+          <div className="mt-3 space-y-3">
+            <label>Platform</label>
+            <div className="mt-2 px-2 py-2 rounded-md border text-sm">
+              Backpack
+            </div>
             Trade Type:
             <Select
               value={metadata.tradeType}
@@ -191,9 +175,21 @@ export const ActionSheet = ({
             <Input
               className="w-full mt-2"
               type="text"
-              placeholder="Enter API key for the trading platform"
+              placeholder="Enter API key"
               onChange={(e) =>
                 setCredential((m) => ({ ...m, apiKey: e.target.value }))
+              }
+            />
+            API Secret :
+            <Input
+              className="w-full mt-2"
+              type="text"
+              placeholder="Enter API Secret key"
+              onChange={(e) =>
+                setCredential((m) => ({
+                  ...m,
+                  apiSecret: e.target.value,
+                }))
               }
             />
           </div>
@@ -268,7 +264,7 @@ export const ActionSheet = ({
             />
           </div>
         )}
-        <SheetFooter className="mt-4">
+        <SheetFooter className="mt-2">
           <Button
             className="w-full"
             disabled={
