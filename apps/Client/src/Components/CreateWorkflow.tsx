@@ -61,6 +61,11 @@ interface EdgeType {
 
 export default function CreateWorkflow() {
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false);
+  const [workflowName, setWorkflowName] = useState("");
+  const [saving, setSaving] = useState(false);
+
   const [nodes, setNodes] = useState<NodeType[]>([]);
   const [edges, setEdges] = useState<EdgeType[]>([]);
   const [selectActionOpen, setSelectActionOpen] = useState<{
@@ -121,6 +126,25 @@ export default function CreateWorkflow() {
       target: edge.target,
     })),
   };
+
+  async function publishWorkflow() {
+    try {
+      setSaving(true);
+
+      const res = await axios.post(
+        "http://localhost:3000/api/workflow",
+        { name: workflowName, ...payload },
+        { withCredentials: true },
+      );
+
+      const workflowId = res.data.id;
+      navigate(`/workflow/${workflowId}`);
+    } catch (err) {
+      console.error("Failed to create workflow");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -197,26 +221,42 @@ export default function CreateWorkflow() {
             right: 20,
             zIndex: 1000,
           }}
-          onClick={async () => {
-            const name = prompt("Enter workflow name");
-            try {
-              const res = await axios.post(
-                "http://localhost:3000/api/workflow",
-                { name, ...payload },
-                { withCredentials: true },
-              );
-
-              const workflowId = res.data.id;
-
-              navigate(`/workflow/${workflowId}`);
-            } catch (err) {
-              console.error("Failed to create workflow");
-            }
-          }}
+          onClick={() => setShowModal(true)}
         >
           Publish
         </button>
       </ReactFlow>
+      {showModal && (
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[2000]">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md space-y-4">
+            <h2 className="text-lg font-semibold">Enter workflow name</h2>
+
+            <input
+              value={workflowName}
+              onChange={(e) => setWorkflowName(e.target.value)}
+              placeholder="My Trading Workflow"
+              className="w-full border rounded-lg px-4 py-2"
+            />
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 border rounded-lg"
+              >
+                Cancel
+              </button>
+
+              <button
+                disabled={!workflowName || saving}
+                onClick={publishWorkflow}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+              >
+                {saving ? "Publishing..." : "Publish"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,43 +2,111 @@ import { Link } from "react-router-dom";
 
 export const HomePage = () => {
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gray-100 px-6 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-[-180px] left-1/2 -translate-x-1/2 w-[850px] h-[850px] bg-blue-100 rounded-full blur-[140px] opacity-40"></div>
-      </div>
+    <div className="bg-white text-gray-900">
+      <section className="max-w-7xl mx-auto px-4 lg:px-10 py-15 grid md:grid-cols-2 gap-16 items-center">
+        <div className="space-y-5">
+          <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight">
+            Build Powerful Workflow Automation with
+            <span className="text-blue-600"> TriggerFlow</span>
+          </h1>
 
-      <div className="max-w-3xl text-center space-y-10">
-        <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight text-gray-900 tracking-tight">
-          Build Powerful{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-            Automation
-          </span>
-          <br />
-          With <span className="text-blue-600">TriggerFlow</span>
-        </h1>
+          <p className="text-gray-900 text-lg leading-relaxed">
+            TriggerFlow is a visual automation platform where you create
+            workflows using triggers and actions. Monitor events like time or
+            market prices and automatically execute actions such as sending
+            emails or executing crypto trades.
+          </p>
 
-        <p className="text-gray-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-          TriggerFlow helps you visually create advanced trigger-action
-          workflows. Connect events, automate execution, and build scalable
-          systems without writing complex logic.
-        </p>
+          <p className="text-gray-900 leading-relaxed">
+            The platform currently supports automation for crypto trading using
+            Backpack Exchange and allows developers to build automation
+            workflows without writing complex backend logic.
+          </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-          <Link
-            to="/signup"
-            className="px-8 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all duration-300 shadow-sm hover:shadow-blue-300/40"
-          >
-            Get Started
-          </Link>
+          <div className="flex gap-4 pt-2">
+            <Link
+              to="/signup"
+              className="px-7 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-sm"
+            >
+              Get Started
+            </Link>
 
-          <Link
-            to="/login"
-            className="px-8 py-3 rounded-lg border border-gray-300 hover:border-blue-500 hover:text-blue-600 transition-all duration-300 font-semibold text-gray-700"
-          >
-            Login
-          </Link>
+            <Link
+              to="/login"
+              className="px-7 py-3 border border-gray-300 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition"
+            >
+              Login
+            </Link>
+          </div>
         </div>
-      </div>
+
+        <div className="flex justify-center">
+          <div className="border border-blue-200 rounded-xl shadow-lg p-2 bg-white">
+            <img
+              src="/one.png"
+              alt="Workflow automation preview"
+              className="rounded-lg w-full max-w-xl"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t py-15">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-16">
+            What TriggerFlow Supports
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "⏱ Time Trigger",
+                desc: "Execute workflows after a specific delay or scheduled interval.",
+              },
+              {
+                title: "📈 Price Trigger",
+                desc: "Monitor crypto prices and trigger workflows when a target price is reached.",
+              },
+              {
+                title: "📩 Send Email",
+                desc: "Automatically send email notifications when workflows execute.",
+              },
+              {
+                title: "💰 Execute Trade",
+                desc: "Automatically place buy or sell orders through Backpack Exchange.",
+              },
+              {
+                title: "🔗 Visual Workflows",
+                desc: "Connect triggers and actions using an intuitive node based workflow builder.",
+              },
+              {
+                title: "⚡ Scalable Automation",
+                desc: "Run multiple workflows reliably without manual monitoring.",
+              },
+            ].map((feature, i) => (
+              <div
+                key={i}
+                className="p-6 bg-white rounded-xl border shadow-sm hover:shadow-md transition"
+              >
+                <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+                <p className="text-gray-900 text-sm leading-relaxed">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t py-12">
+        <div className="max-w-6xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="font-semibold text-lg text-blue-600">TriggerFlow</div>
+
+          <div className="text-gray-900 text-sm">
+            Built with React • TypeScript • Node.js
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

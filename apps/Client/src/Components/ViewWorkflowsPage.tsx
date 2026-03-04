@@ -35,7 +35,7 @@ export default function ViewWorkflowsPage() {
             { withCredentials: true },
           );
 
-           statusMap[wf._id] = execResponse.data.status;
+          statusMap[wf._id] = execResponse.data.status;
         }
         setStatus(statusMap);
       } catch (err) {
@@ -59,18 +59,26 @@ export default function ViewWorkflowsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 sm:p-10">
-      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-center mb-8 gap-4">
+    <div className="min-h-screen bg-white p-6 sm:p-10">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
           Your Workflows
         </h1>
+        <div className="flex gap-3">
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md transition"
+          >
+            Dashboard
+          </button>
 
-        <button
-          onClick={() => navigate("/create-workflow")}
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md transition duration-200"
-        >
-          Create New
-        </button>
+          <button
+            onClick={() => navigate("/create-workflow")}
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md transition"
+          >
+            Create New
+          </button>
+        </div>
       </div>
 
       {workflows.length === 0 ? (
@@ -82,7 +90,7 @@ export default function ViewWorkflowsPage() {
           {workflows.map((wf) => (
             <div
               key={wf._id}
-              className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5"
+              className="bg-blue-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-5"
             >
               <div className="space-y-1">
                 <h2 className="font-semibold text-lg break-all text-gray-800">

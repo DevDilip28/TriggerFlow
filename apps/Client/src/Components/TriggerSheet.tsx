@@ -53,7 +53,7 @@ export const TriggerSheet = ({
 }) => {
   const [metadata, setMetadata] = useState<
     TimerNodeMetadata | PriceNodeMetadata
-  >({ time: 60, asset: "BTC_USDC", price: 1 });
+  >({ time: 60, asset: "BTC_USDC", price: 60000 });
   const [selectedTrigger, setSelectedTrigger] = useState<
     TriggerKind | undefined
   >(undefined);

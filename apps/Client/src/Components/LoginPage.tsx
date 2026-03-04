@@ -50,7 +50,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col lg:flex-row bg-gray-100 px-6 overflow-hidden">
+    <div className="relative min-h-screen flex flex-col lg:flex-row bg-white px-6 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-blue-100 rounded-full blur-[150px] opacity-40"></div>
       </div>
