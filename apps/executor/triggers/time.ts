@@ -1,7 +1,7 @@
 import { ExecutionModel } from "db";
 import { execute } from "../execute";
 
-export async function handleTimeTrigger(workflow, triggerNode) {
+export async function handleTimeTrigger(workflow: any, triggerNode: any) {
     const timeInS = triggerNode.data?.metadata.time;
 
     const execution = await ExecutionModel.findOne({

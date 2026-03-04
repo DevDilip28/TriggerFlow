@@ -86,7 +86,7 @@ export const ActionSheet = ({
 
         <Select
           value={selectedAction}
-          onValueChange={(value) => setSelectedAction(value)}
+          onValueChange={(value) => setSelectedAction(value as "send-email" | "execute-trade")}
         >
           <SelectTrigger className="w-full space-x-2">
             <SelectValue placeholder="Select an action" />

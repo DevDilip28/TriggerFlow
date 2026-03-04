@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ReactFlow, Background } from "@xyflow/react";
+import { ReactFlow, Background, BackgroundVariant } from "@xyflow/react";
 import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
 import { Timer } from "@/nodes/triggers/TimeTrigger";
 import { Price } from "@/nodes/triggers/PriceTrigger";
@@ -119,7 +119,7 @@ export default function IdWorkflowPage() {
           nodesConnectable={false}
           elementsSelectable={false}
         >
-          <Background variant="dots" gap={10} size={1} />
+          <Background variant={BackgroundVariant.Dots} gap={10} size={1} />
         </ReactFlow>
       </div>
     </div>

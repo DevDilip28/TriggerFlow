@@ -14,14 +14,14 @@ export const LoginPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -35,14 +35,14 @@ export const LoginPage = () => {
     try {
       setLoading(true);
 
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/auth/login",
         parsed.data,
         { withCredentials: true },
       );
 
       navigate("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);

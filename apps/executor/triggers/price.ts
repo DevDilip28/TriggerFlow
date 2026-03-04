@@ -2,7 +2,7 @@ import axios from "axios";
 import { ExecutionModel } from "db";
 import { execute } from "../execute";
 
-export async function handlePriceTrigger(workflow, triggerNode) {
+export async function handlePriceTrigger(workflow: any, triggerNode: any) {
     const asset = triggerNode.data?.metadata?.asset;
     const userPrice = Number(triggerNode.data?.metadata?.price);
 

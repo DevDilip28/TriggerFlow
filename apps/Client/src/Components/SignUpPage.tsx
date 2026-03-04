@@ -14,14 +14,14 @@ export const SignUpPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -40,7 +40,7 @@ export const SignUpPage = () => {
       });
 
       navigate("/dashboard");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);

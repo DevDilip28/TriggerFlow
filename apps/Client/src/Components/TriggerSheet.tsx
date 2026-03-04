@@ -71,7 +71,7 @@ export const TriggerSheet = ({
         </SheetHeader>
         <Select
           value={selectedTrigger}
-          onValueChange={(Value) => setSelectedTrigger(Value)}
+          onValueChange={(value) => setSelectedTrigger(value as TriggerKind)}
         >
           <SelectTrigger className="w-full mt-2 space-x-2">
             <SelectValue placeholder="Select a trigger" />
@@ -95,7 +95,7 @@ export const TriggerSheet = ({
             Time (in seconds):
             <Input
               className="w-full mt-2 space-x-2"
-              value={metadata.time}
+              value={(metadata as TimerNodeMetadata).time}
               onChange={(e) =>
                 setMetadata((m) => ({
                   ...m,
@@ -112,11 +112,11 @@ export const TriggerSheet = ({
           <div>
             Asset:
             <Select
-              value={metadata.asset}
-              onValueChange={(Value) =>
+              value={(metadata as PriceNodeMetadata).asset}
+              onValueChange={(value) =>
                 setMetadata((metadata) => ({
                   ...metadata,
-                  asset: Value,
+                  asset: value,
                 }))
               }
             >
@@ -157,7 +157,10 @@ export const TriggerSheet = ({
           <Button
             className="w-full"
             onClick={() => {
-              onSelect(selectedTrigger as TriggerKind, metadata);
+              onSelect(selectedTrigger as TriggerKind, metadata, {
+                apiKey: "",
+                apiSecret: "",
+              });
             }}
             type="submit"
             disabled={!selectedTrigger}

@@ -2,11 +2,12 @@ import bcrypt from "bcrypt";
 import { SignUpSchema, SignInSchema } from "@triggerflow/common";
 import { UserModel } from "db";
 import jwt from "jsonwebtoken";
+import { Request, Response } from "express";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 //new users registration 
-export const signup = async (req, res) => {
+export const signup = async (req: Request, res:Response) => {
     const parsed = SignUpSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -55,7 +56,7 @@ export const signup = async (req, res) => {
 };
 
 //existing users login
-export const login = async (req, res) => {
+export const login = async (req: Request, res: Response) => {
     const parsed = SignInSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -90,7 +91,7 @@ export const login = async (req, res) => {
     });
 };
 
-export const logout = (req, res) => {
+export const logout = (req: Request, res: Response) => {
     res.clearCookie("token");
     return res.status(200).json({ message: "Logout successful" });
 };

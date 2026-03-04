@@ -5,6 +5,7 @@ import {
   applyEdgeChanges,
   addEdge,
   Background,
+  BackgroundVariant 
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { TriggerSheet } from "./TriggerSheet";
@@ -96,7 +97,7 @@ export default function CreateWorkflow() {
 
   const POSSITION_OFFSET = 40;
 
-  const onConnectEnd = useCallback((params, connectInfo) => {
+  const onConnectEnd = useCallback((_params: any, connectInfo: any) => {
     if (!connectInfo.isValid) {
       setSelectActionOpen({
         position: {
@@ -211,7 +212,7 @@ export default function CreateWorkflow() {
         panOnScroll
         zoomOnPinch
       >
-        <Background variant="dots" gap={10} size={1} />
+        <Background variant={BackgroundVariant.Dots} gap={10} size={1} />
 
         <button
           className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-sm hover:bg-blue-700 hover:shadow-md transition duration-200"
