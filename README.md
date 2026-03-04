@@ -1,97 +1,61 @@
-TriggerFlow
+# TriggerFlow
 
-TriggerFlow is a visual workflow automation platform that lets users build trigger–action pipelines to automate tasks such as crypto trading and email notifications.
+TriggerFlow is a **visual workflow automation platform** that lets users build **trigger–action pipelines** to automate tasks such as crypto trading and email notifications.
 
-Users design workflows using a node-based editor, connect triggers to actions, and the system automatically executes them when conditions are met.
+Users design workflows using a **node-based editor**, connect triggers to actions, and the system automatically executes them when conditions are met.
 
-Features
+---
 
-Visual Workflow Builder using React Flow
+## Features
 
-Time Trigger – execute workflows after a delay
+- Visual Workflow Builder using **React Flow**
+- **Time Trigger** – execute workflows after a delay
+- **Price Trigger** – run workflows when crypto reaches a target price
+- **Email Automation** via **Resend API**
+- **Automated Crypto Trading** using **Backpack Exchange API**
+- **Background Executor Service** that continuously evaluates triggers
+- **Execution Tracking** *(Pending / Success / Failed)*
 
-Price Trigger – run workflows when crypto reaches a target price
+---
 
-Email Automation via Resend API
+## How It Works
 
-Automated Crypto Trading using Backpack Exchange API
-
-Background Executor Service that continuously evaluates triggers
-
-Execution Tracking (Pending / Success / Failed)
-
-How It Works
-
-Create a workflow using the visual editor.
-
-Add a trigger node (Time or Price).
-
-Connect action nodes (Send Email or Execute Trade).
-
-Publish the workflow.
+1. Create a workflow using the visual editor.
+2. Add a **trigger node** *(Time or Price)*.
+3. Connect **action nodes** *(Send Email or Execute Trade)*.
+4. Publish the workflow.
 
 The executor service continuously monitors triggers and runs the workflow automatically when conditions are met.
 
-Architecture
-Client (React + ReactFlow)
-        │
-        ▼
-API Server (Node.js + Express)
-        │
-        ▼
-MongoDB
-        │
-        ▼
-Executor Worker
-        │
-        ▼
-Trigger Evaluation
-        │
-        ▼
-Action Execution
-Tech Stack
+---
 
-Frontend
+## Tech Stack
 
-React
+### Frontend
+- React
+- TypeScript
+- React Flow
+- TailwindCSS
 
-TypeScript
+### Backend
+- Node.js
+- Express
 
-React Flow
+### Database
+- MongoDB
 
-TailwindCSS
+### External APIs
+- Backpack Exchange SDK
+- Binance API
+- Resend Email API
 
-Backend
+### Monorepo
+- TurboRepo
 
-Node.js
+---
 
-Express
+## Disclaimer
 
-Database
+Automated trading involves financial risk. Users must provide their own **Backpack API Key and Secret** to execute trades.
 
-MongoDB
-
-External APIs
-
-Backpack Exchange SDK
-
-Binance API
-
-Resend Email API
-
-Monorepo
-
-TurboRepo
-
-Project Structure
-apps/
-  client      → React frontend
-  server      → Express API
-  executor    → background workflow runner
-
-packages/
-  common      → shared types & schemas
-  db          → database models
-Disclaimer
-
-Automated trading involves financial risk. Users must provide their own Backpack API Key and Secret to execute trades. This project is intended for educational and experimental purposes.
+This project is intended for **educational and experimental purposes**.
