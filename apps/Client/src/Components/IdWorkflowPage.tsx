@@ -6,7 +6,6 @@ import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
 import { Timer } from "@/nodes/triggers/TimeTrigger";
 import { Price } from "@/nodes/triggers/PriceTrigger";
 import SendEmail from "@/nodes/actions/SendEmail";
-import SendWhatsapp from "@/nodes/actions/SendWhatsapp";
 
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 
@@ -31,7 +30,6 @@ const nodeTypes = {
   "price-trigger": Price,
   "execute-trade": ExecuteTrade,
   "send-email": SendEmail,
-  "send-whatsapp": SendWhatsapp,
 };
 
 export default function IdWorkflowPage() {
@@ -96,7 +94,7 @@ export default function IdWorkflowPage() {
           onClick={() => navigate("/view-workflows")}
           className="px-4 py-2 border rounded-md bg-blue-300 transition"
         >
-          Back to Wrokflows
+          Back to Workflows
         </button>
         <span
           className={`px-4 py-2 border rounded-md font-medium ${

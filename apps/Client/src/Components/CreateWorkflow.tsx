@@ -11,7 +11,6 @@ import { TriggerSheet } from "./TriggerSheet";
 import { ActionSheet } from "./ActionSheet";
 import ExecuteTrade from "@/nodes/actions/ExecuteTrade";
 import {
-  type SendWhatsappNodeMetadata,
   type SendEmailNodeMetadata,
   type ExecuteTradeNodeMetadata,
   type TimerNodeMetadata,
@@ -21,7 +20,6 @@ import {
 import { Timer } from "@/nodes/triggers/TimeTrigger";
 import { Price } from "@/nodes/triggers/PriceTrigger";
 import SendEmail from "@/nodes/actions/SendEmail";
-import SendWhatsapp from "@/nodes/actions/SendWhatsapp";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -30,13 +28,11 @@ const nodeTypes = {
   "price-trigger": Price,
   "execute-trade": ExecuteTrade,
   "send-email": SendEmail,
-  "send-whatsapp": SendWhatsapp,
 };
 
 export type NodeKind =
   | "price-trigger"
   | "time-trigger"
-  | "send-whatsapp"
   | "send-email"
   | "execute-trade";
 
@@ -44,8 +40,7 @@ export type NodeMetadata =
   | TimerNodeMetadata
   | PriceNodeMetadata
   | ExecuteTradeNodeMetadata
-  | SendEmailNodeMetadata
-  | SendWhatsappNodeMetadata;
+  | SendEmailNodeMetadata;
 
 interface NodeType {
   id: string;

@@ -21,7 +21,6 @@ import { useState } from "react";
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { SUPPORTED_ASSETS } from "./TriggerSheet";
 import {
-  type SendWhatsappNodeMetadata,
   type SendEmailNodeMetadata,
   type ExecuteTradeNodeMetadata,
   type tradeCredential,
@@ -37,11 +36,6 @@ export const SUPPORTED_ACTIONS = [
     id: "send-email",
     title: "Send Email",
     description: "Send an email notification when the trigger fires",
-  },
-  {
-    id: "send-whatsapp",
-    title: "Send WhatsApp Message",
-    description: "Send a WhatsApp message when the trigger fires",
   },
 ] as const;
 
@@ -59,11 +53,7 @@ export const ActionSheet = ({
   ) => void;
 }) => {
   const [metadata, setMetadata] = useState<
-    Partial<
-      ExecuteTradeNodeMetadata &
-        SendEmailNodeMetadata &
-        SendWhatsappNodeMetadata
-    >
+    Partial<ExecuteTradeNodeMetadata & SendEmailNodeMetadata>
   >({});
 
   const [credential, setCredential] = useState<Partial<tradeCredential>>({});
@@ -81,8 +71,6 @@ export const ActionSheet = ({
     credential.apiSecret;
 
   const isSendEmailValid = metadata.to && metadata.subject && metadata.body;
-
-  const isSendWhatsappValid = metadata.to && metadata.body;
 
   return (
     <Sheet open={true}>
@@ -236,42 +224,13 @@ export const ActionSheet = ({
           </div>
         )}
 
-        {selectedAction === "send-whatsapp" && (
-          <div className="mt-4 space-y-3">
-            TO:
-            <Input
-              className="w-full mt-2"
-              type="text"
-              placeholder="+91XXXXXXXXXX"
-              onChange={(e) => {
-                setMetadata((m) => ({
-                  ...m,
-                  to: e.target.value,
-                }));
-              }}
-            />
-            Body:
-            <Input
-              className="w-full mt-2"
-              type="text"
-              placeholder="Type your message"
-              onChange={(e) => {
-                setMetadata((m) => ({
-                  ...m,
-                  body: e.target.value,
-                }));
-              }}
-            />
-          </div>
-        )}
         <SheetFooter className="mt-2">
           <Button
             className="w-full"
             disabled={
               !selectedAction ||
               (selectedAction === "execute-trade" && !isExecuteTradeValid) ||
-              (selectedAction === "send-email" && !isSendEmailValid) ||
-              (selectedAction === "send-whatsapp" && !isSendWhatsappValid)
+              (selectedAction === "send-email" && !isSendEmailValid)
             }
             onClick={() => {
               onSelect(

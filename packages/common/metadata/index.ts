@@ -20,11 +20,6 @@ export type SendEmailNodeMetadata = {
   body: string;
 };
 
-export type SendWhatsappNodeMetadata = {
-  to: string;
-  body: string;
-};
-
 export type tradeCredential = {
   apiKey?: string;
   apiSecret?: string;

@@ -1,6 +1,5 @@
 import { backpack } from "./executors/backpack";
 import { sendEmail } from "./executors/email";
-import { sendWhatsapp } from "./executors/whatsapp";
 
 export type NodeType = {
     id: string;
@@ -51,10 +50,6 @@ export async function executeRecursive(sourceId: string, nodes: NodeType[], edge
 
             case "send-email":
                 await sendEmail(node.data.metadata.to, node.data.metadata.subject, node.data.metadata.body);
-                break;
-
-            case "send-whatsapp":
-                await sendWhatsapp(node.data.metadata.to, node.data.metadata.body);
                 break;
         }
     }))

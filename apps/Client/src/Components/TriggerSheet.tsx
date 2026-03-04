@@ -18,7 +18,11 @@ import {
 
 import type { NodeKind, NodeMetadata } from "./CreateWorkflow";
 import { useState } from "react";
-import {type TimerNodeMetadata, type PriceNodeMetadata, type tradeCredential } from "@triggerflow/common";
+import {
+  type TimerNodeMetadata,
+  type PriceNodeMetadata,
+  type tradeCredential,
+} from "@triggerflow/common";
 import { Input } from "./ui/input";
 
 const SUPPORTED_TRIGGERS = [
@@ -41,11 +45,15 @@ type TriggerKind = "time-trigger" | "price-trigger";
 export const TriggerSheet = ({
   onSelect,
 }: {
-  onSelect: (kind: NodeKind, metadata: NodeMetadata, credential: tradeCredential) => void;
+  onSelect: (
+    kind: NodeKind,
+    metadata: NodeMetadata,
+    credential: tradeCredential,
+  ) => void;
 }) => {
   const [metadata, setMetadata] = useState<
     TimerNodeMetadata | PriceNodeMetadata
-  >({ time: 1, asset: "BTC_USDC", price: 1 });
+  >({ time: 60, asset: "BTC_USDC", price: 1 });
   const [selectedTrigger, setSelectedTrigger] = useState<
     TriggerKind | undefined
   >(undefined);
@@ -95,6 +103,9 @@ export const TriggerSheet = ({
                 }))
               }
             ></Input>
+            <label className="block mt-2">
+              After how many seconds should the workflow start?
+            </label>
           </div>
         )}
         {selectedTrigger === "price-trigger" && (
@@ -128,6 +139,7 @@ export const TriggerSheet = ({
               <Input
                 className="w-full mt-2 space-x-2"
                 type="number"
+                placeholder="60,000"
                 onChange={(e) =>
                   setMetadata((m) => ({
                     ...m,
@@ -135,6 +147,9 @@ export const TriggerSheet = ({
                   }))
                 }
               ></Input>
+              <label className="block mt-2">
+                At what price do you want to start the workflow?
+              </label>
             </Select>
           </div>
         )}
