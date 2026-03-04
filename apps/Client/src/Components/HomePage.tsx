@@ -1,4 +1,4 @@
-import { Github, Linkedin } from "lucide-react";
+import { Github } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
