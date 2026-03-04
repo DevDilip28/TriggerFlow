@@ -167,7 +167,7 @@ function DashboardPage() {
           <p className="text-sm text-gray-900 mt-3 leading-relaxed">
             These credentials are required to authorize trade execution on
             behalf of your account. If valid API credentials are not provided,
-            trade actions will not execute.
+            trade actions will failed.
           </p>
 
           <p className="text-sm text-gray-900 mt-3 leading-relaxed">

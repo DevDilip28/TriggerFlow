@@ -41,7 +41,6 @@ export async function backpack(tradeType: string, qty: number, symbol: string, a
     const response = await client.order.executeOrder(payload);
 
     if (response.statusCode !== 200) {
-        console.error("Trade failed:", response.error);
         throw new Error(response.error.message);
     }
     return response.data;

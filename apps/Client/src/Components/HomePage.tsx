@@ -1,3 +1,4 @@
+import { Github, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const HomePage = () => {
@@ -100,10 +101,25 @@ export const HomePage = () => {
 
       <footer className="border-t py-12">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="order-1 md:order-2 text-center">
+            Developed by{" "}
+            <span className="font-semibold text-blue-600 hover:text-blue-500 transition-colors duration-200">
+              Dilip
+            </span>
+          </div>
+
           <div className="font-semibold text-lg text-blue-600">TriggerFlow</div>
 
-          <div className="text-gray-900 text-sm">
-            Built with React • TypeScript • Node.js
+          <div className="order-3 flex items-center gap-5 text-gray-400">
+            <a
+              href="https://github.com/DevDilip28"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="hover:text-indigo-400 transition-colors duration-200"
+            >
+              <Github className="w-5 h-5" />
+            </a>
           </div>
         </div>
       </footer>
