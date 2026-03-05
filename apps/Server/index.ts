@@ -1,24 +1,27 @@
 import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
-import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import workflowRoutes from "./routes/workflow.route.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://trigger-flow-client.vercel.app"
-  ],
-  credentials: true
-}));
-
-app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://trigger-flow-client.vercel.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 async function startServer() {
   try {
@@ -32,10 +35,10 @@ async function startServer() {
     app.use("/api/workflow", workflowRoutes);
 
     app.get("/", (req, res) => {
-      res.send("Welcome to TriggerFlow Server!");
+      res.send("TriggerFlow API running");
     });
 
-    const PORT = process.env.PORT || 3000;
+    const PORT = Number(process.env.PORT) || 3000;
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on ${PORT}`);
