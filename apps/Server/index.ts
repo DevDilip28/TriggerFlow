@@ -8,17 +8,19 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
-
 app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://trigger-flow-client.vercel.app"
   ],
+  credentials: true,
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  credentials: true
+  allowedHeaders: ["Content-Type","Authorization"]
 }));
+
+app.options("*", cors());
+app.use(express.json());
+app.use(cookieParser());
 
 async function startServer() {
   try {
