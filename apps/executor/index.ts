@@ -1,6 +1,6 @@
 import { WorkflowModel } from "@triggerflow/db";
-import { handleTimeTrigger } from "./triggers/time";
-import { handlePriceTrigger } from "./triggers/price";
+import { handleTimeTrigger } from "./triggers/time.js";
+import { handlePriceTrigger } from "./triggers/price.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
