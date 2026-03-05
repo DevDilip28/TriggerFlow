@@ -1,5 +1,5 @@
-import { backpack } from "./executors/backpack";
-import { sendEmail } from "./executors/email";
+import { backpack } from "./executors/backpack.js";
+import { sendEmail } from "./executors/email.js";
 
 export type NodeType = {
     id: string;

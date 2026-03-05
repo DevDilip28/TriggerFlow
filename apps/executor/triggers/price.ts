@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ExecutionModel } from "@triggerflow/db";
-import { execute } from "../execute";
+import { execute } from "../execute.js";
 
 export async function handlePriceTrigger(workflow: any, triggerNode: any) {
     const asset = triggerNode.data?.metadata?.asset;

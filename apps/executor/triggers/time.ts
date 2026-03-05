@@ -1,5 +1,5 @@
 import { ExecutionModel } from "@triggerflow/db";
-import { execute } from "../execute";
+import { execute } from "../execute.js";
 
 export async function handleTimeTrigger(workflow: any, triggerNode: any) {
     const timeInS = triggerNode.data?.metadata.time;
