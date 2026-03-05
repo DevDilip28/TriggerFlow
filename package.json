@@ -9,6 +9,7 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "lightningcss": "^1.31.1",
     "prettier": "^3.7.4",
     "rollup": "^4.59.0",
     "turbo": "^2.7.4",
