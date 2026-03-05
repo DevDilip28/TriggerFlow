@@ -6,7 +6,7 @@ function DashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3000/api/auth/logout", {
+      await axios.get("https://triggerflow-production.up.railway.app/api/auth/logout", {
         withCredentials: true,
       });
       navigate("/");

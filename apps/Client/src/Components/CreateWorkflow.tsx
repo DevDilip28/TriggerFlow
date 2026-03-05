@@ -133,7 +133,7 @@ export default function CreateWorkflow() {
       setSaving(true);
 
       const res = await axios.post(
-        "http://localhost:3000/api/workflow",
+        "https://triggerflow-production.up.railway.app/api/workflow/",
         { name: workflowName, ...payload },
         { withCredentials: true },
       );

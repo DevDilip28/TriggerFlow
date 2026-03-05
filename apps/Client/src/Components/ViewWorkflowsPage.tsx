@@ -20,7 +20,7 @@ export default function ViewWorkflowsPage() {
     async function fetchWorkflows() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/workflow/allworkflows",
+          "https://triggerflow-production.up.railway.app/api/workflow/allworkflows",
           { withCredentials: true },
         );
         const workflowsData = response.data.workflows;
@@ -31,7 +31,7 @@ export default function ViewWorkflowsPage() {
 
         for (const wf of workflowsData) {
           const execResponse = await axios.get(
-            `http://localhost:3000/api/workflow/execution/${wf._id}`,
+            `https://triggerflow-production.up.railway.app/api/workflow/execution/${wf._id}`,
             { withCredentials: true },
           );
 

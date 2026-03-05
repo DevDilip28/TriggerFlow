@@ -46,7 +46,7 @@ export default function IdWorkflowPage() {
     async function fetchWorkflow() {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/workflow/${id}`,
+          `https://triggerflow-production.up.railway.app/api/workflow/${id}`,
           { withCredentials: true },
         );
 
@@ -57,7 +57,7 @@ export default function IdWorkflowPage() {
         setName(workflowData.name);
 
         const execResponse = await axios.get(
-          `http://localhost:3000/api/workflow/execution/${workflowData._id}`,
+          `https://triggerflow-production.up.railway.app/api/workflow/execution/${workflowData._id}`,
           { withCredentials: true },
         );
 

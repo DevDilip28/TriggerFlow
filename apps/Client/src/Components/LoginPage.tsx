@@ -36,7 +36,7 @@ export const LoginPage = () => {
       setLoading(true);
 
       await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "https://triggerflow-production.up.railway.app/api/auth/login",
         parsed.data,
         { withCredentials: true },
       );
