@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { SignUpSchema, SignInSchema } from "@triggerflow/common";
-import { UserModel } from "db";
+import { UserModel } from "@triggerflow/db";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 

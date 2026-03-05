@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ExecutionModel } from "db";
+import { ExecutionModel } from "@triggerflow/db";
 import { execute } from "../execute";
 
 export async function handlePriceTrigger(workflow: any, triggerNode: any) {

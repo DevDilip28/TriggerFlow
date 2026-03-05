@@ -1,5 +1,5 @@
 import { CreateWorkflowSchema, UpdateWorkflowSchema } from "@triggerflow/common";
-import {  ExecutionModel, NodeModel, WorkflowModel } from "db";
+import {  ExecutionModel, NodeModel, WorkflowModel } from "@triggerflow/db";
 import { Request, Response } from "express";
 
 export const createWorkflow = async (req: Request, res: Response) => {

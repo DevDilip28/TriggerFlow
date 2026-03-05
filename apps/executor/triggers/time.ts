@@ -1,4 +1,4 @@
-import { ExecutionModel } from "db";
+import { ExecutionModel } from "@triggerflow/db";
 import { execute } from "../execute";
 
 export async function handleTimeTrigger(workflow: any, triggerNode: any) {

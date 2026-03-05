@@ -9,17 +9,19 @@
   "dependencies": {
     "axios": "^1.13.6",
     "bpx-api-client": "^0.1.2",
-    "db": "*",
+    "@triggerflow/db": "*",
     "express": "^5.2.1",
     "lighter-ts-sdk": "^1.0.10",
     "node-telegram-bot-api": "^0.67.0",
     "nodemailer": "^8.0.1",
+    "@types/nodemailer": "^7.0.11",
+    "typescript": "^5.9.2",
     "resend": "^6.9.3"
   },
   "scripts": {
     "dev": "tsx watch index.ts",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "npx tsc"
   },
   "devDependencies": {
     "@types/nodemailer": "^7.0.11"

@@ -1,4 +1,4 @@
-import { WorkflowModel } from "db";
+import { WorkflowModel } from "@triggerflow/db";
 import { handleTimeTrigger } from "./triggers/time";
 import { handlePriceTrigger } from "./triggers/price";
 import mongoose from "mongoose";
