@@ -13,7 +13,7 @@ app.use(cookieParser());
 
 app.use(cors({
   origin: ["http://localhost:5173",
-    "https://trigger-flow-client.vercel.app/"
+    "https://trigger-flow-client.vercel.app"
   ],
   credentials: true,
 }));
