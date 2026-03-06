@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 const JWT_SECRET = process.env.JWT_SECRET!;
 
 //new users registration 
-export const signup = async (req: Request, res:Response) => {
+export const signup = async (req: Request, res: Response) => {
     const parsed = SignUpSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -39,8 +39,8 @@ export const signup = async (req: Request, res:Response) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: true,
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -80,8 +80,8 @@ export const login = async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
