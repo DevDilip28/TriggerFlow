@@ -41,6 +41,8 @@ export const signup = async (req: Request, res: Response) => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".up.railway.app",
+            path: "/",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -82,6 +84,8 @@ export const login = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: true,
         sameSite: "none",
+        domain: ".up.railway.app",
+        path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
@@ -92,6 +96,15 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
-    res.clearCookie("token");
+
+    res.cookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        domain: ".up.railway.app",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
     return res.status(200).json({ message: "Logout successful" });
 };
